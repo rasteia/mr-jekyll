@@ -2,14 +2,14 @@ import tkinter as tk
 from process_posts_module import process_posts
 from monitor_src_module import monitor_src
 from directory_selector import DirectorySelector
-import feedback
 from status_bar import StatusBar
 from settings_window import SettingsWindow
 from progress_bar import ProgressBar
-from log_viewer import LogViewer
 from help_window import HelpWindow
 from menu_bar import create_menu_bar
 from about_window import AboutWindow
+# import feedback
+# from log_viewer import LogViewer
 
 def create_app(root):
     frame = tk.Frame(root)
@@ -24,10 +24,10 @@ def create_app(root):
     process_btn = tk.Button(frame, text="Process Posts", command=lambda: process_posts(src_selector.get_directory(), dest_selector.get_directory(), log_viewer.add_log))
     process_btn.pack()
 
-    feedback_window = feedback.FeedbackWindow(root)
+    # feedback_window = feedback.FeedbackWindow(root)
 
-    monitor_btn = tk.Button(frame, text="Monitor Source Folder", command=lambda: monitor_src(src_selector.get_directory(), log_viewer.add_log))
-    monitor_btn.pack()
+    # monitor_btn = tk.Button(frame, text="Monitor Source Folder", command=lambda: monitor_src(src_selector.get_directory(), log_viewer.add_log))
+    # monitor_btn.pack()
 
     settings_window = SettingsWindow(root)
     settings_window.withdraw()
@@ -38,11 +38,11 @@ def create_app(root):
     progress = ProgressBar(frame)
     progress.pack(fill=tk.X, padx=5, pady=5)
 
-    log_viewer = LogViewer(root)
-    log_viewer.withdraw()
+    #log_viewer = LogViewer(root)
+    # log_viewer.withdraw()
 
-    log_btn = tk.Button(frame, text="Log Viewer", command=log_viewer.deiconify)
-    log_btn.pack()
+    # log_btn = tk.Button(frame, text="Log Viewer", command=log_viewer.deiconify)
+    # log_btn.pack()
 
     help_window = HelpWindow(root)
 
@@ -57,4 +57,4 @@ def create_app(root):
 
     create_menu_bar(root, settings_window.deiconify, help_window.deiconify, about_window.deiconify)
 
-    return feedback_window, status_bar, progress, log_viewer
+    return status_bar, progress #, feedback_window, log_viewer

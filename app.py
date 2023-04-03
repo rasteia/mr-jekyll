@@ -8,11 +8,10 @@ from menu_bar import create_menu_bar
 from about_window import AboutWindow
 from log_viewer import LogViewer
 from progress_bar import ProgressBar
-from monitor_src_module import monitor_src
 import os
 import shutil
 import threading
-
+from pathlib import Path
 
 def process_posts(src, dest, add_log):
     if not os.path.exists(dest):
@@ -28,6 +27,7 @@ def process_posts(src, dest, add_log):
                 process_markdown_file(dest_file_path)
                 add_log(f"Processed {src_file_path} -> {dest_file_path}")
 
+
 def create_app(root):
     frame = tk.Frame(root)
     frame.pack(padx=10, pady=10)
@@ -40,11 +40,6 @@ def create_app(root):
 
     process_btn = tk.Button(frame, text="Process Posts", command=lambda: process_posts(src_selector.get_directory(), dest_selector.get_directory(), log_viewer.add_log))
     process_btn.pack()
-
-    # feedback_window = feedback.FeedbackWindow(root)
-
-    monitor_btn = tk.Button(frame, text="Monitor Source Folder", command=lambda: threading.Thread(target=monitor_src, args=(src_selector.get_directory(), dest_selector.get_directory(), log_viewer.add_log)).start())
-    monitor_btn.pack()
 
     settings_window = SettingsWindow(root)
     settings_window.withdraw()

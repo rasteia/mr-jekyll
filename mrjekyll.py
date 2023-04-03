@@ -2,12 +2,13 @@ import os
 import re
 import datetime
 from slugify import slugify
+TEMPLATE_HEAD_PATH = "./templatehead.txt"
 
 def read_template_head():
-    with open("templatehead.txt", "r") as file:
+    with open(TEMPLATE_HEAD_PATH, "r") as file:
         return file.read()
 
-def process_markdown_file(file_path):
+def process_markdown_file(src_file_path, dest_file_path):
     template_head = read_template_head()
 
     # Get the current date and time
@@ -16,7 +17,7 @@ def process_markdown_file(file_path):
     current_time = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
     # Extract the title from the file name
-    file_name = os.path.basename(file_path)
+    file_name = os.path.basename(src_file_path)
     title = os.path.splitext(file_name)[0]
 
     # Clean up the title and generate a valid slug
@@ -26,10 +27,10 @@ def process_markdown_file(file_path):
 
     # Update the filename with proper Jekyll format
     new_file_name = f"{current_date}-{slug}.md"
-    new_file_path = os.path.join(os.path.dirname(file_path), new_file_name)
+    new_file_path = os.path.join(os.path.dirname(src_file_path), new_file_name)
 
     # Read the original file content
-    with open(file_path, "r") as file:
+    with open(src_file_path, "r") as file:
         content = file.read()
 
     # Update the file content with the title and date

@@ -1,6 +1,7 @@
 import os
 import re
 import datetime
+import shutil
 from slugify import slugify
 TEMPLATE_HEAD_PATH = "./templatehead.txt"
 
@@ -27,7 +28,9 @@ def process_markdown_file(src_file_path, dest_file_path):
 
     # Update the filename with proper Jekyll format
     new_file_name = f"{current_date}-{slug}.md"
-    new_file_path = os.path.join(os.path.dirname(src_file_path), new_file_name)
+
+    # Update the destination file path with new file name
+    dest_file_path = os.path.join(dest_file_path, new_file_name)
 
     # Read the original file content
     with open(src_file_path, "r") as file:
@@ -38,10 +41,14 @@ def process_markdown_file(src_file_path, dest_file_path):
     updated_content = updated_template_head + "\n" + content
 
     # Write the updated content to the new file
-    with open(new_file_path, "w") as file:
+    with open(dest_file_path, "w") as file:
         file.write(updated_content)
 
     # Remove the original file
-    os.remove(file_path)
+    os.remove(src_file_path)
 
-    print(f"Processed {file_path} -> {new_file_path}")
+    print(f"Processed {src_file_path} -> {dest_file_path}")
+
+
+
+

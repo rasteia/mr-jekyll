@@ -9,8 +9,18 @@ def read_template_head():
     with open(TEMPLATE_HEAD_PATH, "r") as file:
         return file.read()
 
-def process_markdown_file(src_file_path, dest_file_path):
+def process_markdown_file(src_file_path, dest_dir_path):
+    file_name = os.path.basename(src_file_path)
+    new_file_name = datetime.now().strftime("%Y-%m-%d-") + file_name.lower().replace(" ", "-")
+    dest_dir_path = os.path.normpath(dest_dir_path)  # convert forward slashes to backslashes
+    new_file_path = os.path.join(dest_dir_path, new_file_name)
     template_head = read_template_head()
+    with open(src_file_path, "r", encoding="utf-8") as file:
+        filedata = file.read()
+        new_filedata = add_front_matter(filedata, new_file_name)
+
+    with open(new_file_path, "w", encoding="utf-8") as file:
+        file.write(new_filedata)
 
     # Get the current date and time
     current_datetime = datetime.datetime.now()
@@ -28,9 +38,7 @@ def process_markdown_file(src_file_path, dest_file_path):
 
     # Update the filename with proper Jekyll format
     new_file_name = f"{current_date}-{slug}.md"
-
-    # Update the destination file path with new file name
-    dest_file_path = os.path.join(dest_file_path, new_file_name)
+    new_file_path = os.path.join(dest_dir_path, new_file_name.replace('\\', '-'))
 
     # Read the original file content
     with open(src_file_path, "r") as file:
@@ -41,14 +49,12 @@ def process_markdown_file(src_file_path, dest_file_path):
     updated_content = updated_template_head + "\n" + content
 
     # Write the updated content to the new file
-    with open(dest_file_path, "w") as file:
+    with open(new_file_path, "w") as file:
         file.write(updated_content)
 
     # Remove the original file
     os.remove(src_file_path)
 
-    print(f"Processed {src_file_path} -> {dest_file_path}")
-
-
+    print(f"Processed {src_file_path} -> {new_file_path}")
 
 

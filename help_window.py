@@ -4,13 +4,14 @@
 # information about the application's features. You can update the help text in 
 # the help_text
 
-
 import tkinter as tk
+from tkinter import Toplevel, Text, Scrollbar
 import tkinter.scrolledtext as st
 
-class HelpWindow(tk.Toplevel):
-    def __init__(self, master=None, **kwargs):
-        super().__init__(master, **kwargs)
+class HelpWindow(Toplevel):
+    def __init__(self, master=None, cnf={}, **kw):
+        super().__init__(master, cnf, **kw)
+        self.withdraw()
         self.title("Help")
         self.geometry("600x400")
 
@@ -37,3 +38,4 @@ Features:
         self.help_text_widget.insert(tk.END, help_text)
         self.help_text_widget.configure(state='disabled')
         self.help_text_widget.pack(expand=True, fill=tk.BOTH)
+        self.protocol("WM_DELETE_WINDOW", self.withdraw)

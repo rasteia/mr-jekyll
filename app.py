@@ -45,7 +45,6 @@ def create_app(root):
     log_btn.pack()
 
     help_window = HelpWindow(root)
-    help_window.withdraw()
 
     help_btn = tk.Button(frame, text="Help", command=help_window.deiconify)
     help_btn.pack()
@@ -54,7 +53,7 @@ def create_app(root):
     status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
     about_window = AboutWindow(root)
-    about_window.withdraw()
+
 
     create_menu_bar(root, settings_window.deiconify, help_window.deiconify, about_window.deiconify)
 

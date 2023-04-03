@@ -6,10 +6,12 @@
 # Update the "Developed by" label with the appropriate developer name(s).
 
 import tkinter as tk
+from tkinter import Toplevel, Label
 
-class AboutWindow(tk.Toplevel):
-    def __init__(self, master=None, **kwargs):
-        super().__init__(master, **kwargs)
+class AboutWindow(Toplevel):
+    def __init__(self, master=None, cnf={}, **kw):
+        super().__init__(master, cnf, **kw)
+        self.withdraw()
         self.title("About")
         self.geometry("300x200")
 
@@ -24,3 +26,4 @@ class AboutWindow(tk.Toplevel):
 
         close_button = tk.Button(self, text="Close", command=self.destroy)
         close_button.pack(pady=5)
+        self.protocol("WM_DELETE_WINDOW", self.withdraw)

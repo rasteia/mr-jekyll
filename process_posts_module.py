@@ -3,9 +3,10 @@ import newpost
 import newimage
 import tts
 
-def process_posts(src_dir, dest_dir, log_func=None):
-    newpost.process_new_posts(src_dir, dest_dir)
-    newimage.update_default_images(dest_dir)
-    tts.update_default_audio(dest_dir)
-    if log_func:
-        log_func(f"Processed post: {src_file} -> {dest_file}")
+def process_posts(src_dir, dest_dir, log_func=lambda x: None):
+    for md_file in glob.glob(os.path.join(src_dir, "*.md")):
+        src_filepath = md_file
+        filename = os.path.basename(src_filepath)
+        dest_filepath = os.path.join(dest_dir, filename)
+        shutil.move(src_filepath, dest_filepath)
+        log_func(f"Processed post: {src_filepath} -> {dest_filepath}")
